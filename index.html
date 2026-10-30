@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Portugal &amp; Sevilla · App móvil V1.0</title>
+<style>
+:root{
+  --bg:#f3efe6;
+  --paper:#fffdfa;
+  --ink:#26353b;
+  --muted:#6e777a;
+  --blue:#173c4d;
+  --blue2:#315f70;
+  --gold:#b58c45;
+  --line:#e3dbcd;
+  --warn:#fff4d6;
+  --shadow:0 7px 22px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Segoe UI,system-ui,-apple-system,Roboto,sans-serif;
+  padding-bottom:0;
+}
+button,a{-webkit-tap-highlight-color:transparent}
+header{
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:white;
+  padding:32px 36px 28px;
+}
+header .top{max-width:1450px;margin:auto}
+header .eyebrow{
+  letter-spacing:.13em;text-transform:uppercase;font-size:12px;opacity:.75
+}
+h1{font-family:Georgia,serif;font-size:42px;margin:5px 0 6px}
+header p{margin:0;opacity:.9}
+.route{
+  margin-top:18px;padding:12px 15px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:12px;font-size:13px;line-height:1.5
+}
+.layout{
+  max-width:1500px;margin:auto;
+  display:grid;grid-template-columns:320px 1fr;
+  gap:22px;padding:22px
+}
+aside{
+  position:sticky;top:0;align-self:start;
+  max-height:100vh;overflow:auto;padding-bottom:30px
+}
+.panel{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:18px;box-shadow:var(--shadow);overflow:hidden
+}
+.panel h3{
+  font-family:Georgia,serif;font-size:19px;
+  margin:0;padding:17px 18px;border-bottom:1px solid var(--line)
+}
+.daytab{
+  display:grid;grid-template-columns:42px 36px 1fr;
+  width:100%;align-items:center;text-align:left;
+  border:0;border-bottom:1px solid var(--line);
+  background:white;padding:10px 12px;cursor:pointer;color:var(--ink)
+}
+.daytab:hover{background:#f7f2e9}
+.daytab span{font-size:10px;color:var(--muted);font-weight:700}
+.daytab b{font-size:19px;color:var(--blue)}
+.daytab small{font-size:12px;line-height:1.2}
+.checks{padding:12px 16px 17px}
+.checks div{
+  font-size:12px;line-height:1.35;padding:8px 0;
+  border-bottom:1px dashed var(--line)
+}
+.checks div:last-child{border:0}
+main{min-width:0}
+.day{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:20px;box-shadow:var(--shadow);
+  margin-bottom:22px;overflow:hidden;scroll-margin-top:16px
+}
+.dayhead{
+  display:flex;gap:18px;align-items:center;
+  padding:22px 24px;background:linear-gradient(90deg,#faf6ef,#fffdfa)
+}
+.cal{
+  width:72px;height:82px;border-radius:15px;
+  background:var(--blue);color:white;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;flex:0 0 auto
+}
+.cal span{font-size:11px;font-weight:800;letter-spacing:.08em}
+.cal b{font-size:30px;line-height:30px}
+.cal small{font-size:10px;opacity:.8}
+.daynum{
+  font-size:11px;color:var(--gold);font-weight:800;letter-spacing:.12em
+}
+h2{font-family:Georgia,serif;font-size:26px;margin:2px 0 4px}
+.dayhead p{margin:0;color:var(--muted);font-size:13px}
+.items{padding:0 24px}
+.item{
+  display:flex;gap:20px;justify-content:space-between;align-items:center;
+  padding:14px 0;border-top:1px solid var(--line)
+}
+.item:first-child{border-top:0}
+.itemtext{line-height:1.42}
+.label{
+  font-weight:800;font-size:13px;color:var(--blue);margin-bottom:2px
+}
+.itemtext>div:last-child{font-size:14px}
+.item a{
+  white-space:nowrap;text-decoration:none;
+  font-size:11px;font-weight:800;letter-spacing:.04em;
+  color:white;background:var(--blue);
+  padding:10px 12px;border-radius:10px
+}
+.item a:hover{filter:brightness(1.15)}
+.note{
+  margin:4px 24px 22px;padding:12px 14px;
+  background:var(--warn);border:1px solid #ead9a2;
+  border-radius:12px;font-size:13px;line-height:1.45
+}
+footer{
+  text-align:center;color:var(--muted);
+  font-size:12px;padding:5px 20px 35px
+}
+.mobile-top,.mobile-bottom{display:none}
+
+/* ---- Xiaomi 13 Pro / Android phone layout ---- */
+@media (max-width: 700px){
+  body{
+    padding-bottom:calc(78px + env(safe-area-inset-bottom));
+    background:#eee8dd;
+  }
+
+  /* Compact app-like top bar */
+  .mobile-top{
+    position:sticky;top:0;z-index:1000;
+    min-height:64px;
+    display:grid;grid-template-columns:52px 1fr 52px;
+    align-items:center;
+    background:rgba(23,60,77,.97);
+    backdrop-filter:blur(10px);
+    color:white;
+    padding:8px max(8px,env(safe-area-inset-left));
+    box-shadow:0 3px 12px rgba(0,0,0,.18);
+  }
+  .mobile-top button{
+    width:46px;height:46px;border:0;border-radius:14px;
+    background:rgba(255,255,255,.11);
+    color:white;font-size:32px;line-height:1;
+  }
+  .mobile-top div{min-width:0;padding:0 8px}
+  .mobile-top small{
+    display:block;font-size:10px;letter-spacing:.12em;
+    opacity:.72;font-weight:800
+  }
+  .mobile-top strong{
+    display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    font-size:15px;line-height:1.3;margin-top:1px
+  }
+
+  header{
+    padding:22px 18px 18px;
+    border-radius:0 0 22px 22px;
+  }
+  header .eyebrow{font-size:10px}
+  h1{font-size:31px;line-height:1.05}
+  header p{font-size:13px;line-height:1.35}
+  .route{
+    margin-top:13px;padding:10px 12px;
+    font-size:11px;line-height:1.45
+  }
+
+  .layout{
+    display:block;
+    padding:12px 10px 0;
+    max-width:none;
+  }
+
+  /* Date selector becomes a horizontal thumb-friendly strip */
+  aside{
+    position:relative;top:auto;
+    max-height:none;overflow:visible;padding:0;
+  }
+  aside .panel:first-child{
+    margin-bottom:12px;
+    border-radius:16px;
+    overflow:hidden;
+  }
+  aside .panel:first-child h3{
+    display:none;
+  }
+  aside .panel:first-child{
+    display:block;
+    white-space:nowrap;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scrollbar-width:none;
+    padding:6px;
+  }
+  aside .panel:first-child::-webkit-scrollbar{display:none}
+  .daytab{
+    display:inline-grid;
+    vertical-align:top;
+    grid-template-columns:1fr;
+    width:78px;height:76px;
+    margin:0 3px;
+    padding:8px 5px;
+    text-align:center;
+    border:1px solid var(--line);
+    border-radius:13px;
+    background:#fffdfa;
+  }
+  .daytab span{font-size:9px}
+  .daytab b{font-size:22px;line-height:22px}
+  .daytab small{
+    display:none;
+  }
+  .daytab.active{
+    background:var(--blue);
+    border-color:var(--blue);
+  }
+  .daytab.active span,.daytab.active b{color:white}
+
+  /* Pending checks stays available but out of the way */
+  aside .panel:nth-child(2){
+    margin-top:0!important;
+    margin-bottom:12px;
+  }
+  aside .panel:nth-child(2) h3{
+    font-size:16px;padding:13px 15px
+  }
+  .checks{padding:8px 14px 12px}
+  .checks div{font-size:12px;padding:8px 0}
+
+  main{width:100%}
+  .day{
+    border-radius:18px;
+    margin-bottom:14px;
+    scroll-margin-top:76px;
+  }
+  .dayhead{
+    gap:12px;padding:16px 14px;
+    align-items:flex-start;
+  }
+  .cal{
+    width:58px;height:66px;border-radius:13px
+  }
+  .cal span{font-size:9px}
+  .cal b{font-size:25px;line-height:25px}
+  .cal small{font-size:9px}
+  .daynum{font-size:10px}
+  h2{
+    font-size:22px;line-height:1.12;margin:2px 0 5px
+  }
+  .dayhead p{
+    font-size:12px;line-height:1.35
+  }
+
+  .items{padding:0 14px}
+  .item{
+    display:block;
+    padding:15px 0 16px;
+  }
+  .label{
+    font-size:14px;margin-bottom:4px
+  }
+  .itemtext>div:last-child{
+    font-size:15px;line-height:1.45
+  }
+
+  /* Big one-tap action buttons */
+  .item a{
+    display:flex;
+    width:100%;
+    min-height:48px;
+    align-items:center;
+    justify-content:center;
+    margin-top:11px;
+    padding:12px 14px;
+    border-radius:13px;
+    font-size:13px;
+    letter-spacing:.04em;
+  }
+  .note{
+    margin:2px 14px 16px;
+    padding:12px 13px;
+    font-size:13px;line-height:1.45
+  }
+
+  footer{
+    padding:8px 18px 18px;
+    font-size:11px
+  }
+
+  /* Fixed bottom app navigation */
+  .mobile-bottom{
+    position:fixed;left:0;right:0;bottom:0;z-index:1100;
+    display:grid;grid-template-columns:repeat(4,1fr);
+    min-height:68px;
+    padding-bottom:env(safe-area-inset-bottom);
+    background:rgba(255,253,250,.97);
+    border-top:1px solid var(--line);
+    box-shadow:0 -4px 18px rgba(0,0,0,.08);
+    backdrop-filter:blur(10px);
+  }
+  .mobile-bottom button{
+    border:0;background:transparent;color:var(--muted);
+    min-height:68px;
+    font-weight:700;
+  }
+  .mobile-bottom span{
+    display:block;font-size:21px;line-height:23px
+  }
+  .mobile-bottom small{
+    display:block;font-size:10px;margin-top:3px
+  }
+}
+
+/* Especially narrow portrait widths */
+@media (max-width: 390px){
+  h1{font-size:28px}
+  .daytab{width:70px}
+  h2{font-size:20px}
+  .itemtext>div:last-child{font-size:14.5px}
+}
+</style>
+<style>
+/* V0.4: navegación robusta por anclas. Funciona incluso al abrir el HTML como archivo local. */
+html { scroll-padding-top: 76px; }
+.mobile-top a {
+  width:46px;height:46px;border-radius:14px;
+  background:rgba(255,255,255,.11);color:white;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;font-size:24px;font-weight:800;
+}
+.daytab { text-decoration:none; }
+.daynav {
+  display:flex;justify-content:space-between;gap:10px;
+  padding:0 24px 22px;
+}
+.daynav a {
+  flex:1;min-height:44px;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;text-align:center;
+  color:var(--blue);background:#f3eee5;
+  border:1px solid var(--line);border-radius:11px;
+  font-size:11px;font-weight:800;letter-spacing:.04em;
+  padding:10px;
+}
+.daynav span { flex:1; }
+.mobile-bottom a {
+  text-decoration:none;color:var(--muted);
+  min-height:68px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  font-weight:700;
+}
+.mobile-bottom a span { display:block;font-size:21px;line-height:23px; }
+.mobile-bottom a small { display:block;font-size:10px;margin-top:3px; }
+
+@media (max-width:700px){
+  .daynav { padding:0 14px 16px; }
+  .daynav a { min-height:48px;font-size:12px; }
+  .daytab:active { background:var(--blue); }
+  .daytab:active span,.daytab:active b { color:white; }
+}
+</style><meta content="#173c4d" name="theme-color"/><meta content="yes" name="mobile-web-app-capable"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><meta content="Portugal Sevilla" name="apple-mobile-web-app-title"/><link href="manifest.webmanifest" rel="manifest"/><link href="icons/icon-192.png" rel="apple-touch-icon"/><style>
+.final-badge{display:inline-block;background:#d6b16a;color:#173c4d;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900;letter-spacing:.08em;margin-top:10px}
+.schedule{margin:0 24px 18px;border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.schedule h3{margin:0;padding:13px 15px;background:#f3eee5;font-size:15px;color:var(--blue)}
+.schedule .alert{margin:10px 12px;padding:10px 12px;border-left:4px solid #c47b32;background:#fff4d6;border-radius:8px;font-size:13px;line-height:1.35;font-weight:650}
+.timeline{padding:4px 12px 10px}
+.trow{display:grid;grid-template-columns:92px 1fr;gap:10px;padding:9px 2px;border-bottom:1px solid #eee7dc;font-size:13px;line-height:1.35}
+.trow:last-child{border-bottom:0}.ttime{font-weight:900;color:var(--blue)}
+.section-note{margin:0 24px 14px;padding:12px 14px;background:#edf5f4;border-radius:12px;font-size:13px;line-height:1.4}
+.offline-note{margin-top:10px;font-size:12px;opacity:.9}
+@media(max-width:700px){.schedule{margin:0 14px 14px}.section-note{margin:0 14px 12px}.trow{grid-template-columns:78px 1fr}.mobile-top{z-index:1000}.final-badge{margin-top:8px}}
+</style></head>
+<body><div id="top"></div>
+<div class="mobile-top"><a href="#days">☰</a><div><small>PORTUGAL &amp; SEVILLA</small><strong>16–28 noviembre · 13 días</strong></div><a href="#checks">✓</a></div>
+<header><div class="top">
+<div class="eyebrow">App móvil · V1.0 · guía final</div>
+<h1>Portugal &amp; Sevilla</h1>
+<p>Roci · 16–28 noviembre 2026 · app operativa para Xiaomi 13 Pro · offline + Google Maps</p>
+<div class="route"><strong>Ruta cerrada:</strong> Cangas de Onís · Guarda · Nazaré · Alcobaça · Óbidos · Lisboa · Évora · Sagres · Lagos · Carvoeiro · Tavira · Sevilla · Salamanca · Cangas de Onís<br/><span class="offline-note">El contenido queda disponible sin conexión. Los botones de Maps y turismo necesitan conexión para abrir servicios externos.</span></div><div class="final-badge">CONTENIDO FINAL · 30/10/2026</div>
+</div></header>
+<div class="layout">
+<aside>
+<div class="panel" id="days"><h3>Los 13 días</h3><a class="daytab" href="#day1"><span>LUN</span><b>16</b><small>Cangas de Onís → Guarda</small></a><a class="daytab" href="#day2"><span>MAR</span><b>17</b><small>Guarda → Nazaré</small></a><a class="daytab" href="#day3"><span>MIÉ</span><b>18</b><small>Nazaré → Alcobaça → Óbidos → Lisboa</small></a><a class="daytab" href="#day4"><span>JUE</span><b>19</b><small>Lisboa · Castelo, Alfama y Baixa</small></a><a class="daytab" href="#day5"><span>VIE</span><b>20</b><small>Lisboa · Belém y atardecer</small></a><a class="daytab" href="#day6"><span>SÁB</span><b>21</b><small>Lisboa → Évora</small></a><a class="daytab" href="#day7"><span>DOM</span><b>22</b><small>Évora → Sagres</small></a><a class="daytab" href="#day8"><span>LUN</span><b>23</b><small>Sagres → Lagos → Carvoeiro → Tavira</small></a><a class="daytab" href="#day9"><span>MAR</span><b>24</b><small>Tavira → Sevilla</small></a><a class="daytab" href="#day10"><span>MIÉ</span><b>25</b><small>Sevilla · monumental y Santa Cruz</small></a><a class="daytab" href="#day11"><span>JUE</span><b>26</b><small>Sevilla · río, Arenal y Triana</small></a><a class="daytab" href="#day12"><span>VIE</span><b>27</b><small>Sevilla → Salamanca</small></a><a class="daytab" href="#day13"><span>SÁB</span><b>28</b><small>Salamanca → Cangas de Onís</small></a></div>
+<div class="panel" id="checks" style="margin-top:16px"><h3>48–72 horas antes</h3><div class="checks"><div>□ Guarda: confirmar recepción y llamar si la salida del día 1 sufre retraso serio.</div><div>□ Revisar señalización/estado de los parkings de visita, especialmente Évora, Carvoeiro y Tavira.</div><div>□ Real Alcázar: entrada online para el 25/11 alrededor de las 11:30.</div><div>□ Catedral de Sevilla: revisar agenda del día por cambios de culto.</div><div>□ Sagres: reconfirmar Restaurante Carlos/Meridiano y no alargar el Cabo: recepción 19:00.</div><div>□ Ria Formosa: mantener salida de Carvoeiro a las 16:00 como tope.</div><div>□ Reservar La Barca de Calderón o Terraza de la O para el 26/11.</div><div>□ Confirmar recepción de Villsom y Ruta de la Plata.</div><div>□ SUD Lisboa solo si la meteorología justifica el atardecer.</div><div>□ Via-T / Pagatelia activo y matrícula de Roci asociada.</div><div>□ Descargar mapas offline de Portugal, Algarve, Sevilla y Salamanca.</div></div></div>
+</aside>
+<main>
+<section class="day" id="day1">
+<div class="dayhead">
+<div class="cal"><span>LUN</span><b>16</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 1</div><h2>Cangas de Onís → Guarda</h2><p>529 km · 5 h 18 min teóricos · ESFUERZO BAJO</p></div>
+</div><div class="section-note">Tránsito puro. Llegar con luz y dentro del horario de recepción, conectar Roci y descansar.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. La recepción municipal de Guarda tiene horario de invierno limitado. Si prevemos llegar después de las 17:30, llamar antes.</div><div class="timeline"><div class="trow"><div class="ttime">08:00</div><div>Salida de Cangas de Onís. Día largo: salimos una hora antes del horario estándar.</div></div><div class="trow"><div class="ttime">11:00–11:30</div><div>Parada normal de descanso / café / comida ligera.</div></div><div class="trow"><div class="ttime">14:30–15:30</div><div>Objetivo de llegada a Guarda. Margen mínimo de 2 h antes del cierre de recepción.</div></div><div class="trow"><div class="ttime">17:30</div><div>CIERRE de recepción en horario de invierno. No planificar llegada a esta hora.</div></div><div class="trow"><div class="ttime">Noche</div><div>Conectar Roci, descansar y cena sencilla. Sin visita programada.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚐 Ruta</div><div>Salida de Cangas de Onís. Etapa directa hacia Guarda por la A-66 y Portugal.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Guarda%2C%20Portugal&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Camping</div><div>Parque de Campismo da Guarda. Recepción de invierno 09:00–12:30 y 14:00–17:30. Objetivo: llegar 14:30–15:30.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Parque+de+Campismo+da+Guarda%2C+Av.+Dr.+Afonso+Costa%2C+Guarda%2C+Portugal&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🍽 Cena</div><div>Cena sencilla en Roci. No se programa visita a la ciudad.</div></div></div></div>
+<div class="note">Objetivo del día: llegar sin complicaciones y guardar fuerzas para el viaje.</div>
+<div class="daynav"><span></span><a href="#day2">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day2">
+<div class="dayhead">
+<div class="cal"><span>MAR</span><b>17</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 2</div><h2>Guarda → Nazaré</h2><p>294 km · 2 h 49 min teóricos · ESFUERZO BAJO-MEDIO</p></div>
+</div><div class="section-note">Llegar a mediodía, comer y disfrutar Nazaré. Caminata razonable: paseo llano abajo y funicular para salvar el desnivel del Sítio.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. Revisar señalización de Rua dos Galeões una semana antes: hay referencias recientes favorables, pero el terreno podría cambiar de uso.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Salida de Guarda.</div></div><div class="trow"><div class="ttime">11:50–12:15</div><div>Llegada a Nazaré. Ir directamente al parking de visita, no al camping.</div></div><div class="trow"><div class="ttime">12:30–14:00</div><div>Comida.</div></div><div class="trow"><div class="ttime">14:00–17:15</div><div>Nazaré baja + Ascensor + Sítio + miradores. Forte solo si apetece.</div></div><div class="trow"><div class="ttime">17:30 aprox.</div><div>Recoger Roci y trasladarse a ORBITUR Valado.</div></div><div class="trow"><div class="ttime">Noche</div><div>Cena ligera en Roci.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚐 Ruta</div><div>Salida aproximada 09:00. Llegar a Nazaré antes de comer.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Nazar%C3%A9%2C%20Portugal&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Parking A</div><div>Rua dos Galeões. Primera opción para dejar Roci y entrar a pie en la zona baja.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20dos%20Gale%C3%B5es%2C%20Nazar%C3%A9%2C%20Portugal" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Parking B</div><div>Parque Recanto da Feira. Alternativa si el A no conviene.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Parque%20Recanto%20da%20Feira%2C%20Nazar%C3%A9%2C%20Portugal" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida A</div><div>A Tasquinha. Cocina portuguesa y pescado del día.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=A%20Tasquinha%20Nazar%C3%A9" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida B</div><div>Rosa dos Ventos. Pescado a la brasa y cocina local.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Rosa%20dos%20Ventos%20Nazar%C3%A9" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Playa de Nazaré</div><div>Paseo por el frente marítimo y ambiente de la zona baja.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Praia%20da%20Nazar%C3%A9&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Funicular / Ascensor</div><div>Subida al Sítio sin machacar las piernas.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Ascensor%20da%20Nazar%C3%A9&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Miradouro do Suberco</div><div>Mirador principal sobre Nazaré.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Miradouro%20do%20Suberco%20Nazar%C3%A9&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Sítio de Nazaré</div><div>Calles y ambiente de la parte alta.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=S%C3%ADtio%20da%20Nazar%C3%A9&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Forte de São Miguel Arcanjo</div><div>Opcional si apetece acercarse al faro y al escenario de las olas gigantes.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Forte%20de%20S%C3%A3o%20Miguel%20Arcanjo%20Nazar%C3%A9&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Camping</div><div>ORBITUR Valado. Ir al camping al terminar la visita.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=ORBITUR%20Valado%20Nazar%C3%A9" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍽 Cena</div><div>Ligera en Roci.</div></div></div></div>
+<div class="note">REVISAR antes del viaje: señalización actual del parking de Rua dos Galeões.</div>
+<div class="daynav"><a href="#day1">‹ DÍA ANTERIOR</a><a href="#day3">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day3">
+<div class="dayhead">
+<div class="cal"><span>MIÉ</span><b>18</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 3</div><h2>Nazaré → Alcobaça → Óbidos → Lisboa</h2><p>Jornada corta por carretera, con dos visitas · ESFUERZO MEDIO</p></div>
+</div><div class="section-note">Añadimos Alcobaça sin forzar: monasterio al abrir, Óbidos antes de comer y después directo a Monsanto. Una vez instalados, no volvemos a salir.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. Este día queda cerrado: al llegar a Monsanto NO se programa salida a Lisboa.</div><div class="alert">ATENCIÓN. No subir a las murallas de Óbidos salvo que estemos muy frescos; el pavimento y los desniveles no compensan.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Salida de ORBITUR Valado.</div></div><div class="trow"><div class="ttime">09:30–10:45</div><div>Mosteiro de Alcobaça.</div></div><div class="trow"><div class="ttime">10:45–11:20</div><div>Alcobaça → Óbidos.</div></div><div class="trow"><div class="ttime">11:20–13:00</div><div>Óbidos a pie.</div></div><div class="trow"><div class="ttime">13:00–14:15</div><div>Comida en Óbidos.</div></div><div class="trow"><div class="ttime">14:30</div><div>Salida directa hacia Lisboa.</div></div><div class="trow"><div class="ttime">15:45–16:15</div><div>Llegada a Lisboa Camping / Monsanto. Instalar Roci.</div></div><div class="trow"><div class="ttime">Resto del día</div><div>Descanso. No volvemos a salir: Lisboa empieza mañana.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚐 Ruta 1</div><div>ORBITUR Valado → Alcobaça. Salida 09:00.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Mosteiro+de+Alcoba%C3%A7a&amp;travelmode=driving" rel="noopener" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Alcobaça</div><div>Parking céntrico en el entorno del monasterio. Si el acceso con Roci no resulta cómodo, usar el primer parking amplio periférico.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Pra%C3%A7a+25+de+Abril+Alcoba%C3%A7a+Portugal&amp;travelmode=driving" rel="noopener" target="_blank">IR CON ROCI</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Mosteiro de Alcobaça</div><div>Visita prioritaria de 60–75 min.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Mosteiro+de+Alcoba%C3%A7a&amp;travelmode=walking" rel="noopener" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚐 Ruta 2</div><div>Alcobaça → Óbidos.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Estacionamento+do+Campo+da+Bola+%C3%93bidos&amp;travelmode=driving" rel="noopener" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Óbidos A</div><div>Campo da Bola / Posto de Turismo, junto al acueducto.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Estacionamento+do+Campo+da+Bola+%C3%93bidos&amp;travelmode=driving" rel="noopener" target="_blank">IR CON ROCI</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Óbidos B</div><div>Aqueduto. Alternativa inmediata.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Estacionamento+Aqueduto+%C3%93bidos+Portugal&amp;travelmode=driving" rel="noopener" target="_blank">IR CON ROCI</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Porta da Vila</div><div>Entrada simbólica de Óbidos.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Porta+da+Vila+%C3%93bidos&amp;travelmode=walking" rel="noopener" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Rua Direita</div><div>Eje principal del paseo por Óbidos.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Rua+Direita+%C3%93bidos&amp;travelmode=walking" rel="noopener" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Castelo de Óbidos</div><div>Llegar al castillo es suficiente; no hacemos la vuelta completa a las murallas.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Castelo+de+%C3%93bidos&amp;travelmode=walking" rel="noopener" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍷 Ginjinha</div><div>Opcional: pequeña degustación.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Ginjinha+de+%C3%93bidos" rel="noopener" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida principal</div><div>1148 O Conquistador.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=1148+O+Conquistador+%C3%93bidos" rel="noopener" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Alternativa</div><div>A Nova Casa de Ramiro.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=A+Nova+Casa+de+Ramiro+%C3%93bidos" rel="noopener" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚐 Ruta 3</div><div>Óbidos → Lisboa Camping / Monsanto. Después, no volvemos a salir.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Lisboa+Camping+%26+Bungalows+Monsanto&amp;travelmode=driving" rel="noopener" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Camping</div><div>Lisboa Camping &amp; Bungalows / Monsanto. Base para Lisboa.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Lisboa+Camping+%26+Bungalows+Monsanto&amp;travelmode=driving" rel="noopener" target="_blank">NAVEGAR</a></div></div>
+<div class="note">Nada de intentar “ver Lisboa” el primer día: solo tomar contacto con la ciudad.</div>
+<div class="daynav"><a href="#day2">‹ DÍA ANTERIOR</a><a href="#day4">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day4">
+<div class="dayhead">
+<div class="cal"><span>JUE</span><b>19</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 4</div><h2>Lisboa · Castelo, Alfama y Baixa</h2><p>Uber/taxi + recorrido predominantemente descendente · ESFUERZO MEDIO</p></div>
+</div><div class="section-note">Lisboa histórica sin castigar piernas: Uber hasta arriba, visita y descenso progresivo. Nada de volver a subir andando.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. Objetivo físico: recorrido en descenso. Si hacemos Chiado, se sube en vehículo.</div><div class="alert">ATENCIÓN. Castelo: comprar entrada online si vemos que hay mucha demanda; no es tan crítico como el Alcázar de Sevilla.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Uber/taxi desde el camping con destino Castelo de São Jorge.</div></div><div class="trow"><div class="ttime">09:30–11:00</div><div>Castelo de São Jorge.</div></div><div class="trow"><div class="ttime">11:00–12:45</div><div>Portas do Sol → Santa Luzia → Alfama → Sé. Siempre descendiendo.</div></div><div class="trow"><div class="ttime">13:00–14:15</div><div>Comida cerca de la Sé.</div></div><div class="trow"><div class="ttime">14:15–16:30</div><div>Baixa → Praça do Comércio.</div></div><div class="trow"><div class="ttime">16:30 en adelante</div><div>Chiado solo si apetece: subir en Uber/taxi, nunca a pie. Café corto y regreso.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚕 Inicio</div><div>Uber desde el camping a la zona alta.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Castelo%20de%20S%C3%A3o%20Jorge%20Lisboa" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Castelo de São Jorge</div><div>Interior si apetece; sirve también como punto alto de arranque.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Castelo%20de%20S%C3%A3o%20Jorge%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Portas do Sol</div><div>Mirador y ambiente de Alfama.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Miradouro%20das%20Portas%20do%20Sol%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Santa Luzia</div><div>Segundo mirador, muy próximo y con buen descanso visual.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Miradouro%20de%20Santa%20Luzia%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Alfama</div><div>Callejeo libre, sin ruta rígida.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Alfama%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Sé de Lisboa</div><div>Paso por la catedral.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=S%C3%A9%20de%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Baixa</div><div>Descenso natural hacia el centro.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Baixa%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Praça do Comércio</div><div>Llegada al Tajo.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Pra%C3%A7a%20do%20Com%C3%A9rcio%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Chiado</div><div>Solo si las piernas y el tiempo acompañan.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Chiado%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida A</div><div>Lisboa Tu e Eu 2. Tasca portuguesa.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Lisboa%20Tu%20e%20Eu%202" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida B</div><div>Santa Rita, cerca de la Sé.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Santa%20Rita%20Lisboa%20S%C3%A9" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Regreso</div><div>Uber al camping cuando el cuerpo diga basta.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Lisboa%20Camping%20%26%20Bungalows%20Monsanto" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍽 Cena</div><div>Ligera en Roci.</div></div></div></div>
+<div class="note">El programa orienta; una terraza, una calle o un mirador pueden mandar más que la lista.</div>
+<div class="daynav"><a href="#day3">‹ DÍA ANTERIOR</a><a href="#day5">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day5">
+<div class="dayhead">
+<div class="cal"><span>VIE</span><b>20</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 5</div><h2>Lisboa · Belém y atardecer</h2><p>Uber/taxi + paseo llano por tramos · ESFUERZO BAJO-MEDIO</p></div>
+</div><div class="section-note">Belém es llano pero disperso. Visitamos Jerónimos y usamos Uber si hace falta para no convertir el frente del Tajo en una caminata de varios kilómetros.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. No intentar hacer Jerónimos, Padrão y Torre todos por dentro. Eso convertiría Belém en una jornada de colas.</div><div class="alert">ATENCIÓN. Si el tiempo es malo, SUD desaparece del programa y volvemos antes a Roci.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Uber/taxi: camping → Mosteiro dos Jerónimos.</div></div><div class="trow"><div class="ttime">09:30–11:00</div><div>Jerónimos.</div></div><div class="trow"><div class="ttime">11:00–11:30</div><div>Pastéis de Belém.</div></div><div class="trow"><div class="ttime">11:30–12:45</div><div>Jardines / entorno.</div></div><div class="trow"><div class="ttime">13:00–14:15</div><div>Comida.</div></div><div class="trow"><div class="ttime">14:15–16:15</div><div>Padrão dos Descobrimentos + Torre de Belém.</div></div><div class="trow"><div class="ttime">16:15–16:40</div><div>Uber/taxi hacia SUD Lisboa si tiempo y piernas acompañan.</div></div><div class="trow"><div class="ttime">16:45–18:00</div><div>Copa / puesta de sol en SUD, solo con buena meteorología.</div></div><div class="trow"><div class="ttime">Después</div><div>Uber al camping. Cena ligera.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚕 Inicio</div><div>Uber o traslado hasta Belém.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Mosteiro%20dos%20Jer%C3%B3nimos%20Lisboa" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Mosteiro dos Jerónimos</div><div>Interior prioritario del día.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Mosteiro%20dos%20Jer%C3%B3nimos%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Pastéis de Belém</div><div>Parada obligada por tradición y porque sí.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Past%C3%A9is%20de%20Bel%C3%A9m&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Jardins de Belém</div><div>Paseo tranquilo entre visitas.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Jardim%20da%20Pra%C3%A7a%20do%20Imp%C3%A9rio%20Lisboa&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Padrão dos Descobrimentos</div><div>Verlo y disfrutar del frente fluvial; interior solo si apetece.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Padr%C3%A3o%20dos%20Descobrimentos&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Torre de Belém</div><div>Llegar paseando por el Tajo; no hace falta entrar.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Torre%20de%20Bel%C3%A9m&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida A</div><div>Belém 2 a 8.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Bel%C3%A9m%202%20a%208%20Lisboa" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida B</div><div>Jardins de Belém, si encaja mejor.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Jardins%20de%20Bel%C3%A9m%20restaurante" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🌅 SUD Lisboa</div><div>Copa al final de la tarde y puesta de sol si acompaña el tiempo.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=SUD%20Lisboa" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Regreso</div><div>Cena sobre la marcha o en Roci; no se fuerza otra salida.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Lisboa%20Camping%20%26%20Bungalows%20Monsanto" target="_blank">ABRIR EN MAPS</a></div></div>
+<div class="note">SUD es un capricho de ambiente y vistas, no una obligación gastronómica.</div>
+<div class="daynav"><a href="#day4">‹ DÍA ANTERIOR</a><a href="#day6">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day6">
+<div class="dayhead">
+<div class="cal"><span>SÁB</span><b>21</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 6</div><h2>Lisboa → Évora</h2><p>≈135 km · ESFUERZO MEDIO</p></div>
+</div><div class="section-note">Llegar pronto al Alentejo y aprovechar que la Sé cierra al mediodía. Ciudad compacta: priorizamos Templo, Sé y Giraldo.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. Arena d’Évora: verificar acceso real con Roci antes del viaje.</div><div class="alert">ATENCIÓN. Si usamos parking B, taxi corto al centro: no merece la pena gastar piernas en el enlace.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Salida de Lisboa Camping.</div></div><div class="trow"><div class="ttime">10:30 aprox.</div><div>Llegada a Évora y parking.</div></div><div class="trow"><div class="ttime">10:45–12:00</div><div>Templo Romano + Sé (si entramos).</div></div><div class="trow"><div class="ttime">12:15–13:00</div><div>Praça do Giraldo / callejeo.</div></div><div class="trow"><div class="ttime">13:00–14:30</div><div>Comida alentejana.</div></div><div class="trow"><div class="ttime">14:30–16:30</div><div>Centro histórico tranquilo.</div></div><div class="trow"><div class="ttime">17:00 aprox.</div><div>ORBITUR Évora.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚐 Ruta</div><div>Salida directa desde Monsanto a Évora.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=%C3%89vora%2C%20Portugal&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Parking A</div><div>Parking Arena d’Évora, muy próximo a murallas y centro.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Arena%20d%27%C3%89vora%20parking" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Parking B</div><div>Parque de Autocaravanas, Av. Sanches de Miranda, junto a piscinas municipales.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Parque%20de%20Autocaravanas%20%C3%89vora%20Sanches%20de%20Miranda" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Templo Romano</div><div>Uno de los hitos principales de la ciudad.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Templo%20Romano%20de%20%C3%89vora&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Sé de Évora</div><div>Catedral y entorno monumental.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=S%C3%A9%20Catedral%20de%20%C3%89vora&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Praça do Giraldo</div><div>Centro vivo de Évora.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Pra%C3%A7a%20do%20Giraldo%20%C3%89vora&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Centro histórico</div><div>Callejeo libre entre plazas y fachadas.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Centro%20Hist%C3%B3rico%20de%20%C3%89vora&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida A</div><div>Restaurante Típico Guião. Cocina alentejana.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Restaurante%20T%C3%ADpico%20Gui%C3%A3o%20%C3%89vora" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida B</div><div>Dom Joaquim.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Dom%20Joaquim%20%C3%89vora" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">⭐ Opción</div><div>Taberna Típica Quarta-feira, solo si queremos convertir la comida en acontecimiento.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Taberna%20T%C3%ADpica%20Quarta-feira%20%C3%89vora" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Camping</div><div>ORBITUR Évora.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=ORBITUR%20%C3%89vora" target="_blank">ABRIR EN MAPS</a></div></div>
+<div class="note">REVISAR antes del viaje: que Arena d’Évora siga admitiendo una Roci sin restricciones de altura o acceso.</div>
+<div class="daynav"><a href="#day5">‹ DÍA ANTERIOR</a><a href="#day7">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day7">
+<div class="dayhead">
+<div class="cal"><span>DOM</span><b>22</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 7</div><h2>Évora → Sagres</h2><p>≈234 km · ESFUERZO BAJO-MEDIO</p></div>
+</div><div class="section-note">El gran momento es el paisaje del extremo suroccidental. Roci enlaza restaurante, Fortaleza, Cabo y camping: casi nada de caminata inútil.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. ORBITUR Sagres cierra recepción a las 19:00. Después de la puesta de sol, salida directa al camping.</div><div class="alert">ATENCIÓN. A Sereia aparece cerrada los domingos; no se programa.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Salida de Évora.</div></div><div class="trow"><div class="ttime">11:45–12:15</div><div>Llegada a Sagres.</div></div><div class="trow"><div class="ttime">12:30–13:45</div><div>Comida.</div></div><div class="trow"><div class="ttime">14:00–15:30</div><div>Fortaleza de Sagres.</div></div><div class="trow"><div class="ttime">15:30–16:00</div><div>Roci → Cabo de São Vicente.</div></div><div class="trow"><div class="ttime">16:00–puesta de sol</div><div>Cabo, faro y acantilados.</div></div><div class="trow"><div class="ttime">Tras el ocaso</div><div>Salida directa a ORBITUR Sagres; recepción hasta 19:00.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚐 Ruta</div><div>Salida directa a Sagres.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Sagres%2C%20Portugal&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Fortaleza</div><div>Parking Fortaleza de Sagres.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Fortaleza%20de%20Sagres%20parking" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida A</div><div>Restaurante Carlos. Cocina portuguesa y pescado; opción dominical que encaja con el horario.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Restaurante+Carlos+Sagres" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida B</div><div>Meridiano. Pescado/marisco. Reconfirmar horario 48–72 h antes.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Meridiano+Sagres" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Fortaleza de Sagres</div><div>Visita principal de la tarde.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Fortaleza%20de%20Sagres&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Cabo de São Vicente</div><div>Traslado en Roci y paseo corto por el entorno del faro.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Farol%20do%20Cabo%20de%20S%C3%A3o%20Vicente&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🌅 Puesta de sol</div><div>Quedarse hasta el atardecer si el tiempo acompaña.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Farol%20do%20Cabo%20de%20S%C3%A3o%20Vicente" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Camping</div><div>ORBITUR Sagres.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=ORBITUR%20Sagres" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍽 Cena</div><div>Ligera en Roci.</div></div></div></div>
+<div class="note">REVISAR: horario dominical de A Sereia en noviembre. Si hay duda, Retiro do Pescador.</div>
+<div class="daynav"><a href="#day6">‹ DÍA ANTERIOR</a><a href="#day8">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day8">
+<div class="dayhead">
+<div class="cal"><span>LUN</span><b>23</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 8</div><h2>Sagres → Lagos → Carvoeiro → Tavira</h2><p>Día turístico en ruta · &gt;140 km con paradas · ESFUERZO MEDIO</p></div>
+</div><div class="section-note">Tres bloques breves. Cada parada debe justificar el esfuerzo y manda la llegada a Ria Formosa antes de las 19:00. Carvoeiro es prescindible si retrasa.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. REGLA DEL DÍA: a las 16:00 debemos estar saliendo de Carvoeiro como muy tarde. Si vamos retrasados, Carvoeiro se borra.</div><div class="alert">ATENCIÓN. Camping Ria Formosa: check-in camping hasta las 19:00.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Salida de ORBITUR Sagres.</div></div><div class="trow"><div class="ttime">09:45–10:45</div><div>Ponta da Piedade: miradores superiores.</div></div><div class="trow"><div class="ttime">11:00–12:15</div><div>Lagos ciudad.</div></div><div class="trow"><div class="ttime">12:30–13:45</div><div>Comida en Lagos.</div></div><div class="trow"><div class="ttime">14:30–15:45</div><div>Carvoeiro / Algar Seco, solo si aparcamos fácil y vamos en hora.</div></div><div class="trow"><div class="ttime">16:00 máximo</div><div>SALIDA obligatoria de Carvoeiro hacia Cabanas de Tavira.</div></div><div class="trow"><div class="ttime">17:15–18:00</div><div>Llegada prevista a Camping Ria Formosa.</div></div><div class="trow"><div class="ttime">Noche</div><div>Cena en Roci.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚐 Sagres → Ponta da Piedade</div><div>Primera parada del día.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Ponta%20da%20Piedade%20Lagos&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Ponta da Piedade</div><div>Parking junto al faro / zona alta.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Ponta%20da%20Piedade%20parking" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Ponta da Piedade</div><div>Paseo por acantilados y formaciones rocosas.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Ponta%20da%20Piedade&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Lagos A</div><div>Estrada do Biker / Rua da Gafaria.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20da%20Gafaria%20Lagos%20Portugal" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Lagos B</div><div>Parking Baluarte / Rua do Baluarte.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20do%20Baluarte%20Lagos%20Portugal" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Centro histórico de Lagos</div><div>Paseo corto por el casco viejo.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Centro%20Hist%C3%B3rico%20de%20Lagos%20Portugal&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Marina / frente urbano</div><div>Solo si encaja con el paseo y la comida.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Marina%20de%20Lagos%20Portugal&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida A</div><div>Adega da Marina.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Adega%20da%20Marina%20Lagos" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida B</div><div>A Forja.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=A%20Forja%20Lagos" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚐 Lagos → Carvoeiro</div><div>Segunda parada del día.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Algar%20Seco%20Carvoeiro&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Carvoeiro A</div><div>Rua dos Combatentes.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20dos%20Combatentes%20Carvoeiro" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Carvoeiro B</div><div>Rua das Flores / Algar Seco, solo si encaja Roci y la señalización lo permite.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20das%20Flores%20Carvoeiro" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Algar Seco</div><div>Paseo por pasarelas y acantilados.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Algar%20Seco%20Carvoeiro&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Carvoeiro</div><div>Bajada al pueblo solo si apetece y el aparcamiento lo hace fácil.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Praia%20do%20Carvoeiro&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚐 Carvoeiro → Tavira</div><div>Tramo final hasta Cabanas de Tavira.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Camping%20Ria%20Formosa%20Cabanas%20de%20Tavira&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Camping</div><div>Camping Ria Formosa. Llegar con margen para recepción.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Camping%20Ria%20Formosa%20Cabanas%20de%20Tavira" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍽 Cena</div><div>En Roci.</div></div></div></div>
+<div class="note">Regla del día: si Carvoeiro se complica para aparcar, se salta. No se sacrifica el ritmo por completar casillas.</div>
+<div class="daynav"><a href="#day7">‹ DÍA ANTERIOR</a><a href="#day9">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day9">
+<div class="dayhead">
+<div class="cal"><span>MAR</span><b>24</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 9</div><h2>Tavira → Sevilla</h2><p>≈166 km · 1 h 43 min teóricos · ESFUERZO BAJO-MEDIO</p></div>
+</div><div class="section-note">Tavira por la mañana, comida y salto a Sevilla. Atención al cambio horario: España va una hora por delante de Portugal.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. CAMBIO HORARIO: al entrar en España adelantamos el reloj una hora.</div><div class="alert">ATENCIÓN. Parking del Mercado: verificar gálibo antes de usarlo.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Salida de Cabanas hacia Tavira.</div></div><div class="trow"><div class="ttime">09:20–12:30</div><div>Tavira.</div></div><div class="trow"><div class="ttime">12:45–14:00</div><div>Comida.</div></div><div class="trow"><div class="ttime">14:15 PT</div><div>Salida hacia Sevilla.</div></div><div class="trow"><div class="ttime">≈17:00 ES</div><div>Llegada prevista a Villsom. Al cruzar a España adelantamos 1 hora.</div></div><div class="trow"><div class="ttime">Noche</div><div>Descanso y cena en Roci. No forzamos primera salida a Sevilla.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🅿 Parking A</div><div>Rua João Vaz Corte Real. Opción principal para entrar andando en Tavira.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20Jo%C3%A3o%20Vaz%20Corte%20Real%20Tavira" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🅿 Parking B</div><div>Parking Mercado Municipal / Av. Dom Manuel, solo si Roci entra sin problema.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Mercado%20Municipal%20Tavira%20parking" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Ponte Romana</div><div>Uno de los símbolos de Tavira.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Ponte%20Romana%20de%20Tavira&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Praça da República</div><div>Centro de la vida urbana.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Pra%C3%A7a%20da%20Rep%C3%BAblica%20Tavira&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Centro histórico</div><div>Callejeo tranquilo por Tavira.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Centro%20Hist%C3%B3rico%20de%20Tavira&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida A</div><div>Mira Tapas &amp; Wine. Petiscos del Algarve.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Mira%20Tapas%20%26%20Wine%20Tavira" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida B</div><div>Petisqueira Belmar.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Petisqueira%20Belmar%20Tavira" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚐 Ruta</div><div>Después de comer, salida a Sevilla.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Camping%20Villsom%20Dos%20Hermanas&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Camping</div><div>Camping Villsom, Dos Hermanas.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Camping%20Villsom%20Dos%20Hermanas" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍽 Noche</div><div>Base: descanso y cena en Roci. Salida solo si nos apetece de verdad.</div></div></div></div>
+<div class="note">REVISAR: posible limitación de altura en el parking del Mercado Municipal.</div>
+<div class="daynav"><a href="#day8">‹ DÍA ANTERIOR</a><a href="#day10">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day10">
+<div class="dayhead">
+<div class="cal"><span>MIÉ</span><b>25</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 10</div><h2>Sevilla · monumental y Santa Cruz</h2><p>Uber/taxi + recorrido compacto a pie · ESFUERZO MEDIO</p></div>
+</div><div class="section-note">Primera Sevilla de Emi: Plaza de España y núcleo monumental. Usamos vehículo para los saltos que no aportan nada. Giralda opcional.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. Real Alcázar: comprar entradas online antes del viaje; es la reserva más importante.</div><div class="alert">ATENCIÓN. Catedral: revisar agenda del 25/11 por posibles cambios de culto.</div><div class="alert">ATENCIÓN. La Giralda queda explícitamente opcional por esfuerzo.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Uber/taxi: Villsom → Plaza de España.</div></div><div class="trow"><div class="ttime">09:30–10:20</div><div>Plaza de España.</div></div><div class="trow"><div class="ttime">10:20–10:45</div><div>Pequeño tramo de María Luisa.</div></div><div class="trow"><div class="ttime">10:50 aprox.</div><div>Taxi/Uber corto a Puerta Jerez / Patio de Banderas si conviene.</div></div><div class="trow"><div class="ttime">11:30–13:30</div><div>Real Alcázar (entrada reservada).</div></div><div class="trow"><div class="ttime">13:40–15:00</div><div>Comida en zona monumental.</div></div><div class="trow"><div class="ttime">15:15–16:45</div><div>Catedral; Giralda solo si apetece.</div></div><div class="trow"><div class="ttime">16:45–18:00</div><div>Santa Cruz y café.</div></div><div class="trow"><div class="ttime">18:00 aprox.</div><div>Uber a Villsom.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚕 Inicio</div><div>Uber desde Villsom a Plaza de España.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Plaza%20de%20Espa%C3%B1a%20Sevilla" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Plaza de España</div><div>Primera gran visita del día.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Plaza%20de%20Espa%C3%B1a%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Parque de María Luisa</div><div>Paseo moderado, sin recorrerlo entero.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Parque%20de%20Mar%C3%ADa%20Luisa%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Fábrica de Tabacos</div><div>Paso por el edificio histórico.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Real%20F%C3%A1brica%20de%20Tabacos%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Puerta Jerez</div><div>Entrada natural al centro monumental.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Puerta%20de%20Jerez%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Real Alcázar</div><div>Interior prioritario.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Real%20Alc%C3%A1zar%20de%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Catedral</div><div>Visita según energía y ganas.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Catedral%20de%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Giralda</div><div>Subida opcional.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=La%20Giralda%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Santa Cruz</div><div>Callejeo y ambiente.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Barrio%20de%20Santa%20Cruz%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Principal</div><div>Abacería del Postigo. Está en nuestro recorrido monumental y evita un desvío largo.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Abacer%C3%ADa+del+Postigo+Sevilla" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Alternativa</div><div>Espacio Eslava. Muy buena opción, pero más apartada; solo si decidimos desplazarnos.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Espacio+Eslava+Sevilla" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Regreso</div><div>Uber a Villsom cuando termine el día.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Camping%20Villsom%20Dos%20Hermanas" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🍽 Cena</div><div>Ligera en Roci.</div></div></div></div>
+<div class="note">La prioridad es la primera Sevilla de Emi. La nostalgia de Juan Carlos entra solo si aparece sola.</div>
+<div class="daynav"><a href="#day9">‹ DÍA ANTERIOR</a><a href="#day11">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day11">
+<div class="dayhead">
+<div class="cal"><span>JUE</span><b>26</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 11</div><h2>Sevilla · río, Arenal y Triana</h2><p>Uber/taxi + paseo llano en un solo sentido · ESFUERZO MEDIO</p></div>
+</div><div class="section-note">Día de ambiente: Guadalquivir, Triana, pescaíto y cena especial. Casi todo llano; evitamos volver sobre nuestros pasos.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. No convertir Triana en una ruta nostálgica. Lo viejo aparece si nos lo encontramos.</div><div class="alert">ATENCIÓN. Si hacemos Setas, se enlaza por Uber; no caminar desde Triana hasta Encarnación.</div><div class="timeline"><div class="trow"><div class="ttime">09:00</div><div>Uber/taxi: Villsom → Torre del Oro.</div></div><div class="trow"><div class="ttime">09:30–12:15</div><div>Torre del Oro → Arenal → Maestranza → Puente de Triana → Altozano / Mercado.</div></div><div class="trow"><div class="ttime">12:45–14:15</div><div>Kiosco de las Flores.</div></div><div class="trow"><div class="ttime">14:15–16:15</div><div>Calle Betis / Triana tranquila / café.</div></div><div class="trow"><div class="ttime">16:45–18:15</div><div>Setas, solo si queda energía: Uber/taxi desde Triana.</div></div><div class="trow"><div class="ttime">20:00–21:30</div><div>Cena especial junto al río.</div></div><div class="trow"><div class="ttime">Después</div><div>Uber a Villsom.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚕 Inicio</div><div>Uber hacia Torre del Oro / Arenal.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Torre%20del%20Oro%20Sevilla" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Torre del Oro</div><div>Inicio del paseo junto al río.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Torre%20del%20Oro%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Arenal</div><div>Paseo por el barrio y frente del Guadalquivir.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=El%20Arenal%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Plaza de Toros / Maestranza</div><div>Exterior y entorno.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Plaza%20de%20Toros%20de%20la%20Maestranza%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Puente de Triana</div><div>Cruce hacia Triana.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Puente%20de%20Triana%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Altozano</div><div>Entrada natural al barrio.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Plaza%20del%20Altozano%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Mercado de Triana</div><div>Parada de ambiente y producto.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Mercado%20de%20Triana%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Calle Betis</div><div>Paseo por el río y terrazas.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Calle%20Betis%20Sevilla&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍴 Comida</div><div>Kiosco de las Flores. Pescaíto junto al río; también por el recuerdo.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Kiosco%20de%20las%20Flores%20Sevilla" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🌇 Las Setas</div><div>Opcional al final de la tarde para ver la Sevilla nueva.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Setas%20de%20Sevilla" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">⭐ Cena A</div><div>La Barca de Calderón. Terraza a nivel del río, ambiente relajado.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=La%20Barca%20de%20Calder%C3%B3n%20Sevilla" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">⭐ Cena B</div><div>Terraza de la O. Algo más gastronómica y elegante.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Terraza%20de%20la%20O%20Sevilla" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Noche</div><div>Tercera noche en Villsom.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Camping%20Villsom%20Dos%20Hermanas" target="_blank">ABRIR EN MAPS</a></div></div>
+<div class="note">Día pensado para vivir Sevilla más que para visitarla.</div>
+<div class="daynav"><a href="#day10">‹ DÍA ANTERIOR</a><a href="#day12">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day12">
+<div class="dayhead">
+<div class="cal"><span>VIE</span><b>27</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 12</div><h2>Sevilla → Salamanca</h2><p>469 km · ESFUERZO BAJO</p></div>
+</div><div class="section-note">Etapa larga de regreso. Salamanca es un regalo opcional, no una obligación.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. Confirmar horario de recepción del camping unos días antes.</div><div class="alert">ATENCIÓN. No comprometer el descanso del día 28 por “aprovechar” Salamanca.</div><div class="timeline"><div class="trow"><div class="ttime">08:30</div><div>Salida de Camping Villsom. Día largo de carretera.</div></div><div class="trow"><div class="ttime">11:30 aprox.</div><div>Parada de descanso / comida ligera en ruta.</div></div><div class="trow"><div class="ttime">14:30–15:30</div><div>Llegada prevista al Camping Ruta de la Plata.</div></div><div class="trow"><div class="ttime">17:00 en adelante</div><div>Si estamos frescos: taxi/Uber a Plaza Mayor; si no, tarde y cena en Roci.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚐 Ruta</div><div>Salida de Sevilla hacia Salamanca.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Camping%20Ruta%20de%20la%20Plata%20Villares%20de%20la%20Reina&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🏕 Camping</div><div>Camping Ruta de la Plata. Base de tránsito.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Camping%20Ruta%20de%20la%20Plata%20Salamanca" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚕 Plaza Mayor</div><div>Si queda energía, taxi/Uber al centro.</div></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Plaza%20Mayor%20Salamanca" target="_blank">ABRIR EN MAPS</a></div><div class="item"><div class="itemtext"><div class="label">🚶 Plaza Mayor</div><div>Paseo corto y ambiente nocturno si apetece.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Plaza%20Mayor%20Salamanca&amp;travelmode=walking" target="_blank">IR ANDANDO</a></div><div class="item"><div class="itemtext"><div class="label">🍽 Cena</div><div>En Roci si no apetece salir.</div></div></div></div>
+<div class="note">Salamanca no es una etapa turística obligatoria: solo un buen final de jornada si el cuerpo acompaña.</div>
+<div class="daynav"><a href="#day11">‹ DÍA ANTERIOR</a><a href="#day13">DÍA SIGUIENTE ›</a></div></section>
+<section class="day" id="day13">
+<div class="dayhead">
+<div class="cal"><span>SÁB</span><b>28</b><small>NOV</small></div>
+<div><div class="daynum">DÍA 13</div><h2>Salamanca → Cangas de Onís</h2><p>369 km · ESFUERZO BAJO</p></div>
+</div><div class="section-note">Regreso directo. Objetivo inamovible: estar en Cangas de Onís durante la tarde.</div><div class="schedule"><h3>Horario del día · orientativo</h3><div class="alert">ATENCIÓN. No añadir ninguna visita al regreso.</div><div class="timeline"><div class="trow"><div class="ttime">08:30</div><div>Salida del Camping Ruta de la Plata. Regreso directo.</div></div><div class="trow"><div class="ttime">10:45 aprox.</div><div>Parada breve de café/descanso.</div></div><div class="trow"><div class="ttime">13:15–14:45</div><div>Llegada razonable a Cangas, según tráfico y parada.</div></div></div></div>
+<div class="items"><div class="item"><div class="itemtext"><div class="label">🚐 Ruta</div><div>Última etapa: Camping Ruta de la Plata → Cangas de Onís.</div></div><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Cangas%20de%20On%C3%ADs%2C%20Asturias&amp;travelmode=driving" target="_blank">NAVEGAR</a></div><div class="item"><div class="itemtext"><div class="label">🏠 Llegada</div><div>Fin del viaje. Sin programa añadido.</div></div></div></div>
+<div class="note">Roci a casa. Viaje terminado.</div>
+<div class="daynav"><a href="#day12">‹ DÍA ANTERIOR</a><a href="#top">INICIO ↑</a></div></section></main>
+</div>
+<nav class="mobile-bottom"><a href="#top"><span>🏠</span><small>Inicio</small></a><a href="#days"><span>🗓️</span><small>Días</small></a><a href="#checks"><span>✓</span><small>Revisar</small></a><a href="#top"><span>↑</span><small>Arriba</small></a></nav>
+<footer>Portugal &amp; Sevilla · App móvil V1.0 · sincronizada con la guía final revisada el 30/10/2026.</footer>
+<script>if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) { window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{})); }</script></body>
+</html>
